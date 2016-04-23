@@ -39,7 +39,7 @@ def edges_to_graph(edges):
                 add_node(graph, node2)
         else:
             node2 = node1
-        graph[node1].append(node2)
+        graph[node2].append(node1)
     return graph
 
 
@@ -82,12 +82,9 @@ def get_neighbours(graph, node):
 
 
 def to_string(graph):
-    res = "Nodes : "
+    res = "Graph :\n"
     for k in graph:
-        res += str(k) + " "
-    res += "\nEdges : "
-    for edge in get_edges(graph):
-        res += str(edge) + " "
+        res += str(k) + " : " + str(get_neighbours(graph, k)) + "\n"
     return res
 
 
@@ -98,13 +95,19 @@ G = {'A': ['B', 'C'],
      'E': ['F'],
      'F': ['C']}
 
+V = ['A', 'B', 'C', 'D', 'E', 'F']
 E = [['A', 'B'],
      ['A', 'C'],
      ['B', 'C'],
      ['B', 'D'],
      ['C', 'D'],
+     ['D', 'C'],
      ['E', 'F'],
      ['F', 'C']]
+
+A = edges_to_graph(E)
+print(to_string(A))
+print(to_string(G))
 
 print(find_path(G, 'A', 'D'))
 print(find_shortest_path(G, 'A', 'D'))
@@ -114,6 +117,3 @@ print(to_string(G))
 add_edge(G, {'E', 'A'})
 add_node(G, 'X')
 print(to_string(G))
-
-A = edges_to_graph(E)
-print(to_string(A))
