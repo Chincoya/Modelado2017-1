@@ -1,3 +1,28 @@
+from collections import deque
+
+def dfs(graph, current, target, visited=set()):
+    if current not in visited:
+        visited.add(current)
+        if current == target:
+            return True
+        else:
+            nexts = get_neighbours(graph, current)
+            return True in [dfs(graph, node, target, visited) for node in nexts]
+    return False
+
+def bfs(graph, start, target):
+    visited = set()
+    next = deque(get_neighbours(graph, start))
+    visited.add(start)
+    while next:
+        current = next.popleft()
+        if current == target:
+            return True
+        else:
+            visited.add(current)
+            [next.append(node)for node in get_neighbours(graph, current)if node not in visited]
+    return False
+
 def find_shortest_path(graph, start, end, path=[]):
     path = path + [start]
     if start == end:
@@ -27,6 +52,7 @@ def find_path(graph, start, end, path=[]):
                 return newpath
     return None
 
+
 def edges_to_graph(edges):
     graph = dict()
     for edge in edges:
@@ -47,10 +73,8 @@ def add_edge(graph, edge):
     edge = set(edge)
     node1 = edge.pop()
     if edge:
-        # not a loop
         node2 = edge.pop()
     else:
-        # a loop
         node2 = node1
     if node1 in graph:
         graph[node1].append(node2)
@@ -105,15 +129,13 @@ E = [['A', 'B'],
      ['E', 'F'],
      ['F', 'C']]
 
-A = edges_to_graph(E)
-print(to_string(A))
+# n = int(input())
+# E = []
+# for i in range(n):
+#     E.append(input().split())
+
+G = edges_to_graph(E)
 print(to_string(G))
 
-print(find_path(G, 'A', 'D'))
-print(find_shortest_path(G, 'A', 'D'))
-print(get_neighbours(G, 'A'))
-print(to_string(G))
-
-add_edge(G, {'E', 'A'})
-add_node(G, 'X')
-print(to_string(G))
+print(dfs(G, 'A', 'E', set()))
+print(bfs(G, 'A', 'E'))
