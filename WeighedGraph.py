@@ -1,11 +1,11 @@
 from collections import deque
 
 def dijkstra(graph, current, target, start="", visited=set(), dist=dict(), paths=dict()):
-    if current == target:
-        return dist[target], get_path_dijkstra(paths, start, target, [])
     if not visited:
         start = current
         dist[current] = 0
+    if current == target:
+        return dist[target], get_path_dijkstra(paths, start, target, [])
     for next in get_neighbours(graph, current):
         if next not in visited:
             dist_next = dist.get(next, float('inf'))
