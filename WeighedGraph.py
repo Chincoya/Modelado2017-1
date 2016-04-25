@@ -1,32 +1,5 @@
 from collections import deque
 
-def dijkstra(graph, current, target, start="", visited=set(), dist=dict(), paths=dict()):
-    if not visited:
-        start = current
-        dist[current] = 0
-    if current == target:
-        return dist[target], get_path_dijkstra(paths, start, target, [])
-    for next in get_neighbours(graph, current):
-        if next not in visited:
-            dist_next = dist.get(next, float('inf'))
-            candidate_dist = dist[current] + graph[current][next]
-            if candidate_dist < dist_next:
-                dist[next] = candidate_dist
-                paths[next] = current
-    visited.add(current)
-    nexts = dict((node, dist.get(node, float('inf'))) for node in graph if node not in visited)
-    next = min(nexts, key=nexts.get)
-    if dist.get(next, float('inf')) == float('inf'):
-        return -1
-    return dijkstra(graph, next, target, start, visited, dist, paths)
-
-
-def get_path_dijkstra(paths, start, current, path):
-    if current == start:
-        return [start] + path
-    return get_path_dijkstra(paths, start, paths[current], [current] + path)
-
-
 def dfs(graph, current, target, visited=set()):
     if current not in visited:
         visited.add(current)
@@ -134,4 +107,3 @@ print(to_string(H))
 
 print(bfs(H, 'A', 'F'))
 
-print(dijkstra(H, 'A', 'F'))
