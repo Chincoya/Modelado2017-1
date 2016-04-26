@@ -83,6 +83,14 @@ def get_neighbours_edges(graph, node):
     return edges
 
 
+def get_edges(graph):
+    edges = []
+    for node1 in graph:
+        for node2 in graph[node1]:
+            edges.append([node1, node2, graph[node1][node2]])
+    return edges
+
+
 def edges_to_graph(edges):
     graph = dict()
     for edge in edges:
@@ -135,3 +143,5 @@ print(to_string(H))
 print(bfs(H, 'A', 'F'))
 
 print(dijkstra(H, 'A', 'F'))
+
+print(get_edges(H))
