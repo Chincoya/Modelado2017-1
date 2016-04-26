@@ -40,6 +40,13 @@ def add_node(graph, node):
         graph[node] = {}
 
 
+def get_edges(graph):
+    edges = []
+    for node1 in graph:
+        for node2 in graph[node1]:
+            edges.append([node1, node2, graph[node1][node2]])
+    return edges
+
 def get_neighbours(graph, node):
     nodes = []
     if node in graph:
@@ -106,4 +113,7 @@ H = edges_to_graph(E)
 print(to_string(H))
 
 print(bfs(H, 'A', 'F'))
+
+E = get_edges(H)
+print(*E, sep='\n')
 
