@@ -115,12 +115,9 @@ print(to_string(H))
 
 print(bfs(H, 'A', 'F'))
 
-<<<<<<< HEAD
-print(dijkstra(H, 'A', 'F'))
-
 print(get_edges(H))
-=======
+
 E = get_edges(H)
 print(*E, sep='\n')
 
->>>>>>> 61972252fa3c3bcee8ffe742f4385a3dd68f0e84
+
