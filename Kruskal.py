@@ -1,29 +1,28 @@
-from collections import deque
+# Kruskal Algorithm
+# Find the minimum spanning tree of a connected undirect graph.
+# Complexity ?
 
-def dfs(graph, current, target, visited=set()):
-    if current not in visited:
-        visited.add(current)
-        if current == target:
-            return True
-        else:
-            nexts = get_neighbours(graph, current)
-            return True in [dfs(graph, node, target, visited) for node in nexts]
-    return False
+import heapq
 
-
-def bfs(graph, start, target):
+def kruskal(graph):
     visited = set()
-    next = deque(get_neighbours(graph, start))
-    visited.add(start)
-    while next:
-        current = next.popleft()
-        if current == target:
-            return True
-        else:
-            visited.add(current)
-            [next.append(node) for node in get_neighbours(graph, current) if node not in visited]
-    return False
+    edges = []
+    remaining_edges = [(edge[2], edge[0:2]) for edge in get_edges(graph)]
+    heapq.heapify(remaining_edges)
+    print(remaining_edges)
+    while remaining_edges:
+        print(visited)
+        edge = heapq.heappop(remaining_edges)
+        print(edge)
 
+        nodes = set(edge[1])
+        print(nodes <= visited)
+        print()
+        if not (nodes <= visited):
+            edges.append(edge)
+            visited.add(nodes.pop())
+            visited.add(nodes.pop())
+    return edges
 
 def add_edge(graph, edge, weight):
     edge = set(edge)
@@ -40,6 +39,14 @@ def add_node(graph, node):
         graph[node] = {}
 
 
+def get_edges(graph):
+    edges = []
+    for node1 in graph:
+        for node2 in graph[node1]:
+            edges.append([node1, node2, graph[node1][node2]])
+    return edges
+
+
 def get_neighbours(graph, node):
     nodes = []
     if node in graph:
@@ -53,14 +60,6 @@ def get_neighbours_edges(graph, node):
     edges = dict()
     if node in graph:
         edges = graph[node]
-    return edges
-
-
-def get_edges(graph):
-    edges = []
-    for node1 in graph:
-        for node2 in graph[node1]:
-            edges.append([node1, node2, graph[node1][node2]])
     return edges
 
 
@@ -113,14 +112,9 @@ print(to_string(G))
 H = edges_to_graph(E)
 print(to_string(H))
 
-print(bfs(H, 'A', 'F'))
 
-<<<<<<< HEAD
-print(dijkstra(H, 'A', 'F'))
 
-print(get_edges(H))
-=======
 E = get_edges(H)
 print(*E, sep='\n')
 
->>>>>>> 61972252fa3c3bcee8ffe742f4385a3dd68f0e84
+print(kruskal(H))
