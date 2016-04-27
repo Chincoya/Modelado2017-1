@@ -40,13 +40,6 @@ def add_node(graph, node):
         graph[node] = {}
 
 
-def get_edges(graph):
-    edges = []
-    for node1 in graph:
-        for node2 in graph[node1]:
-            edges.append([node1, node2, graph[node1][node2]])
-    return edges
-
 def get_neighbours(graph, node):
     nodes = []
     if node in graph:
@@ -60,6 +53,14 @@ def get_neighbours_edges(graph, node):
     edges = dict()
     if node in graph:
         edges = graph[node]
+    return edges
+
+
+def get_edges(graph):
+    edges = []
+    for node1 in graph:
+        for node2 in graph[node1]:
+            edges.append([node1, node2, graph[node1][node2]])
     return edges
 
 
@@ -114,6 +115,12 @@ print(to_string(H))
 
 print(bfs(H, 'A', 'F'))
 
+<<<<<<< HEAD
+print(dijkstra(H, 'A', 'F'))
+
+print(get_edges(H))
+=======
 E = get_edges(H)
 print(*E, sep='\n')
 
+>>>>>>> 61972252fa3c3bcee8ffe742f4385a3dd68f0e84
