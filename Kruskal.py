@@ -5,24 +5,41 @@
 import heapq
 
 def kruskal(graph):
-    visited = set()
     edges = []
+    for node in graph:
+        init_node(node)
     remaining_edges = [(edge[2], edge[0:2]) for edge in get_edges(graph)]
     heapq.heapify(remaining_edges)
-    print(remaining_edges)
     while remaining_edges:
-        print(visited)
         edge = heapq.heappop(remaining_edges)
-        print(edge)
-
-        nodes = set(edge[1])
-        print(nodes <= visited)
-        print()
-        if not (nodes <= visited):
+        node1, node2 = edge[1]
+        if find_root(node1) != find_root(node2):
+            union(node1, node2)
             edges.append(edge)
-            visited.add(nodes.pop())
-            visited.add(nodes.pop())
     return edges
+
+
+def init_node(node):
+    parent[node] = node
+    rank[node] = 0
+
+
+def find_root(node):
+    if parent[node] != node:
+        parent[node] = find_root(parent[node])
+    return parent[node]
+
+
+def union(node1, node2):
+    root1, root2 = find_root(node1), find_root(node2)
+    if root1 != root2:
+        if rank[root1] < rank[root2]:
+            parent[root1] = root2
+        else:
+            parent[root2] = root1
+            if rank[root1] == rank[root2]:
+                rank[root1] += 1
+
 
 def add_edge(graph, edge, weight):
     edge = set(edge)
@@ -44,22 +61,6 @@ def get_edges(graph):
     for node1 in graph:
         for node2 in graph[node1]:
             edges.append([node1, node2, graph[node1][node2]])
-    return edges
-
-
-def get_neighbours(graph, node):
-    nodes = []
-    if node in graph:
-        for neighbour in graph[node]:
-            if neighbour not in nodes:
-                nodes.append(neighbour)
-    return nodes
-
-
-def get_neighbours_edges(graph, node):
-    edges = dict()
-    if node in graph:
-        edges = graph[node]
     return edges
 
 
@@ -87,10 +88,6 @@ def to_string(graph):
     return res
 
 
-G = {'a': {'b': 4, 'c': 2},
-     'b': {'a': 4, 'c': 1},
-     'c': {'a': 2}}
-
 E = [['A', 'B', 3],
      ['A', 'C', 5],
      ['B', 'C', 6],
@@ -100,21 +97,8 @@ E = [['A', 'B', 3],
      ['E', 'F', 3],
      ['F', 'C', 5]]
 
-print(len(G))
-
-add_edge(G, ['c', 'b'], 10)
-add_edge(G, ['a', 'a'], 5)
-
-print(get_neighbours(G, 'c'))
-add_node(G, 'z')
-print(to_string(G))
-
+parent = {}
+rank = {}
 H = edges_to_graph(E)
 print(to_string(H))
-
-
-
-E = get_edges(H)
-print(*E, sep='\n')
-
 print(kruskal(H))
