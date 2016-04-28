@@ -41,16 +41,6 @@ def union(node1, node2):
                 rank[root1] += 1
 
 
-def add_edge(graph, edge, weight):
-    edge = set(edge)
-    node1 = edge.pop()
-    if edge:
-        node2 = edge.pop()
-    else:
-        node2 = node1
-    graph[node1][node2] = weight
-
-
 def add_node(graph, node):
     if node not in graph:
         graph[node] = {}
@@ -78,6 +68,7 @@ def edges_to_graph(edges):
         else:
             node2 = node1
         graph[node2][node1] = weight
+        graph[node1][node2] = weight
     return graph
 
 
