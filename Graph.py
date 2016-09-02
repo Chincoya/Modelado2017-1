@@ -111,6 +111,23 @@ def to_string(graph):
         res += str(k) + " : " + str(get_neighbours(graph, k)) + "\n"
     return res
 
+def bipartiteGraph(graph):
+    V1=set()
+    V2=set()
+    for k in graph:
+        if k not in V2:
+            V1.add(k)
+            for i in graph[k]:
+                V1=V1|{j for j in graph[i]}
+                V2.add(i)
+        else:
+            for i in graph[k]:
+                V2=V2|{j for j in graph[i]}
+                V1.add(i)
+    if len(V1&V2)!=0:
+        return False
+    return True
+G1= {'A':['B','D'],'B':['A','C'],'C':['B','D'], 'D':['C','A']}
 
 G = {'A': ['B', 'C'],
      'B': ['C', 'D'],
@@ -134,8 +151,11 @@ E = [['A', 'B'],
 # for i in range(n):
 #     E.append(input().split())
 
-G = edges_to_graph(E)
-print(to_string(G))
+#G = edges_to_graph(E)
+#print(to_string(G))
 
-print(dfs(G, 'A', 'E', set()))
-print(bfs(G, 'A', 'E'))
+print(dfs(G, 'A', 'D', set()))
+print(bfs(G, 'A', 'D'))
+print(bipartiteGraph(G1))
+            
+        
